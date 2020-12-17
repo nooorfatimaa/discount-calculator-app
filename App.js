@@ -23,8 +23,8 @@ const StartScreen = ({navigation, route}) => {
     else if (discount > 100) {
       Alert.alert("Enter a number less than 100 for discount.");
     }
-    else {
-      //Alert.alert("Invalid input. Make sure you enter a positive number for both fields.");
+    else if (discount < 0 || ogPrice < 0) {
+      Alert.alert("Invalid input. Make sure you enter a positive number for both fields.");
     }
   }
 
