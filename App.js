@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Pressable, Button, TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Button, TextInput, Alert, Keyboard } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DataTable } from 'react-native-paper';
@@ -15,16 +15,25 @@ const StartScreen = ({navigation, route}) => {
 
   const calculate = () => {
     let temp = 0;
-    if (ogPrice >= 0 && discount <100 && discount >0) {
+    if (ogPrice >= 0 && discount <100 && discount >0){
       temp = ((100-discount)/100)*ogPrice;
       setFinal(temp.toFixed(2));
       setSaving((ogPrice-temp).toFixed(2));
+      Keyboard.dismiss;
     }
     else if (discount > 100) {
-      Alert.alert("Enter a number less than 100 for discount.");
+      Alert.alert("Warning","Enter a number less than 100 for discount.");
+      setPrice(0);
+      setDiscount(0);
+      setFinal(0);
+      setSaving(0);
     }
     else if (discount < 0 || ogPrice < 0) {
-      Alert.alert("Invalid input. Make sure you enter a positive number for both fields.");
+      Alert.alert("Invalid input. Make sure you enter positive numbers only.");
+      setPrice(0);
+      setDiscount(0);
+      setFinal(0);
+      setSaving(0);
     }
   }
 
@@ -49,6 +58,7 @@ const StartScreen = ({navigation, route}) => {
           onChangeText ={(text) => setPrice(text)}
           value = {ogPrice}
           placeholder = "enter original price"
+          onEndEditing={Keyboard.dismiss}
         />
         <Text style={styles.txt}>Discount Percentage</Text>
         <TextInput style={styles.txtInput}
@@ -56,6 +66,7 @@ const StartScreen = ({navigation, route}) => {
           onChangeText={(text) => setDiscount(text)}
           value = {discount}
           placeholder = "enter discount % (< 100)"
+          onEndEditing={Keyboard.dismiss}
         />
         <Pressable onPress={() => save()} disabled={ogPrice===0 && discount===0} style={styles.btn}><Text>SAVE</Text></Pressable>
       </View>
@@ -74,7 +85,7 @@ const HistoryScreen = ({navigation, route}) => {
   const [historyScreenList, setHisScreenList] = useState(HistoryList);
 
   const clear = () => {
-    Alert.alert("Confirm","Do you want to clear all history?",
+    Alert.alert("Warning","This will clear all saved history. Do you want to continue?",
     [{text:'Yes',onPress:()=>{
       setHisScreenList([]); 
       navigation.setParams(HistoryFunction([]))}},
@@ -96,7 +107,7 @@ const HistoryScreen = ({navigation, route}) => {
         <DataTable.Title>Index</DataTable.Title>
         <DataTable.Title>Original</DataTable.Title>
         <DataTable.Title>Discount %</DataTable.Title>
-        <DataTable.Title>Final Price</DataTable.Title>
+        <DataTable.Title numeric>Final Price</DataTable.Title>
         <DataTable.Title></DataTable.Title>
       </DataTable.Header>
       {historyScreenList.map((item, index)=>{
@@ -136,9 +147,6 @@ function App() {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    //justifyContent: 'center',
-    //alignItems: 'center',
     backgroundColor: '#ecf0f1',
   },
   box: {
@@ -176,7 +184,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   box2: {
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
     width: 300,
     height: 80,
     marginTop: 40,
