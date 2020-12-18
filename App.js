@@ -117,7 +117,7 @@ const HistoryScreen = ({navigation, route}) => {
         <DataTable.Cell>{item.ogData}</DataTable.Cell>
         <DataTable.Cell>{item.discData}</DataTable.Cell>
         <DataTable.Cell>{item.fpData}</DataTable.Cell>
-        <DataTable.Cell numeric><Pressable onPress={() => del(index)} style={{backgroundColor:"grey", borderRadius: 5, width:20, alignItems:"center"}}><Text style={{color: "red"}}>X</Text></Pressable></DataTable.Cell>
+        <DataTable.Cell numeric><Pressable onPress={() => del(index)} style={{backgroundColor:"coral", borderRadius: 5, width:20, alignItems:"center"}}><Text style={{color: "white"}}>X</Text></Pressable></DataTable.Cell>
       </DataTable.Row>
         )
       })}
