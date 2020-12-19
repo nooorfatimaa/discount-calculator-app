@@ -15,7 +15,7 @@ const StartScreen = ({navigation, route}) => {
 
   const calculate = () => {
     let temp = 0;
-    if (ogPrice >= 0 && discount <100 && discount >0){
+    if (ogPrice > 0 && discount >= 0 && discount < 100){
       temp = ((100-discount)/100)*ogPrice;
       setFinal(temp.toFixed(2));
       setSaving((ogPrice-temp).toFixed(2));
@@ -23,7 +23,6 @@ const StartScreen = ({navigation, route}) => {
     }
     else if (discount > 100) {
       Alert.alert("Warning","Enter a number less than 100 for discount.");
-      setPrice(0);
       setDiscount(0);
       setFinal(0);
       setSaving(0);
@@ -68,7 +67,7 @@ const StartScreen = ({navigation, route}) => {
           placeholder = "enter discount % (< 100)"
           onEndEditing={Keyboard.dismiss}
         />
-        <Pressable onPress={() => save()} disabled={ogPrice===0 && discount===0} style={styles.btn}><Text>SAVE</Text></Pressable>
+        <Pressable onPress={() => save()} disabled={discount===0 || ogPrice===0} style={styles.btn}><Text>SAVE</Text></Pressable>
       </View>
       <View style={styles.box2}>
         <Text style={styles.txt2}>You save: {saving}</Text>
@@ -147,6 +146,9 @@ function App() {
 
 const styles = StyleSheet.create({
   container: {
+    //flex: 1,
+    //justifyContent: 'center',
+    //alignItems: 'center',
     backgroundColor: '#ecf0f1',
   },
   box: {
