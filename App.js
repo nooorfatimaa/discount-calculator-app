@@ -15,7 +15,7 @@ const StartScreen = ({navigation, route}) => {
 
   const calculate = () => {
     let temp = 0;
-    if (ogPrice > 0 && discount >= 0 && discount < 100){
+    if (ogPrice > 0 && discount > 0 && discount < 100){
       temp = ((100-discount)/100)*ogPrice;
       setFinal(temp.toFixed(2));
       setSaving((ogPrice-temp).toFixed(2));
