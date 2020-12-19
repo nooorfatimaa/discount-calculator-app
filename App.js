@@ -95,7 +95,7 @@ const HistoryScreen = ({navigation, route}) => {
   navigation.setOptions({headerRight: () => <Button title="Clear" color="coral" onPress={()=> clear()}/>})
 
   const del = (itemIndex) => {
-    let tempList = HistoryList.filter((data,index)=>index!==itemIndex);
+    let tempList = historyScreenList.filter((data,index)=>index!==itemIndex);
     navigation.setParams(HistoryFunction(tempList));
     setHisScreenList(tempList);
   }
